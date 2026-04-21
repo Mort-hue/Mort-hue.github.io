@@ -24,45 +24,6 @@
     <p>Match each country flag with its name — how fast can you clear the board?</p>
   </div>
 
-  <!-- Main game container div -->
-  <div class="section-container">
-
-    <!-- Win Banner -->
-    <div class="win-banner" id="winBanner">
-      <h2>🎉 You Won!</h2>
-      <p id="winMsg">Amazing! You matched all flags!</p>
-    </div>
-
-    <!-- Stats bar div -->
-    <div class="stats-bar">
-      <div class="stat-box">
-        <span class="stat-num" id="movesDisplay">0</span>
-        <span class="stat-label">Moves</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-num" id="matchesDisplay">0</span>
-        <span class="stat-label">Matches</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-num" id="timerDisplay">0s</span>
-        <span class="stat-label">Time</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-num" id="bestDisplay">--</span>
-        <span class="stat-label">Best</span>
-      </div>
-    </div>
-
-    <!-- Game board div -->
-    <div class="game-board-wrapper">
-      <div class="game-grid" id="gameGrid"></div>
-
-      <div class="btn-center">
-        <button class="btn btn-primary" onclick="startGame()">🔀 New Game</button>
-        <button class="btn btn-danger" onclick="resetBoard()">↺ Reset</button>
-      </div>
-    </div>
-
     <!-- Anchor target for "How to Play" section -->
     <div id="how-to-play" class="anchor-target"></div>
 
@@ -150,192 +111,37 @@
   <footer>
     <p>FlagMaster Memory Game &nbsp;|&nbsp; <a href="index.html" style="color: var(--accent); text-decoration: none;">← Back to Portfolio</a></p>
   </footer>
+<!-- Game Stats Panel -->
+<div class="section-container">
+  <div class="game-board-wrapper" style="text-align: center; padding: 40px;">
+    <h2 style="font-family: 'Bangers', cursive; color: var(--accent); font-size: 2rem; letter-spacing: 0.05em; margin-bottom: 24px;">🏆 Your Stats</h2>
+    <div class="stats-bar" style="margin-bottom: 30px;">
+      <div class="stat-box">
+        <span class="stat-num" id="bestTimeDisplay">--</span>
+        <span class="stat-label">Best Time</span>
+      </div>
+    </div>
+    <h3 style="font-family: 'Bangers', cursive; color: var(--text); font-size: 1.4rem; letter-spacing: 0.05em; margin-bottom: 16px;">Last 3 Attempts</h3>
+    <div id="historyList" style="color: var(--text-dim); font-size: 0.95rem; margin-bottom: 30px;"></div>
+    <a href="app.html" class="btn btn-primary" style="text-decoration: none;">🚩 Play Flag Memory Game</a>
+  </div>
+</div>
 
-  <script>
-    // =============================================
-    //  Flag Memory Game — 6x6 board
-    //  18 country pairs (flag image + country name)
-    // =============================================
+<script>
+  // Load and display stats from localStorage
+  const best = localStorage.getItem('flagBestTime');
+  document.getElementById('bestTimeDisplay').textContent = best ? best + 's' : '--';
 
-    const FLAGS = [
-      { id: 1,  country: 'United States', code: 'us' },
-      { id: 2,  country: 'Japan',         code: 'jp' },
-      { id: 3,  country: 'Brazil',        code: 'br' },
-      { id: 4,  country: 'Germany',       code: 'de' },
-      { id: 5,  country: 'France',        code: 'fr' },
-      { id: 6,  country: 'Canada',        code: 'ca' },
-      { id: 7,  country: 'Australia',     code: 'au' },
-      { id: 8,  country: 'India',         code: 'in' },
-      { id: 9,  country: 'Mexico',        code: 'mx' },
-      { id: 10, country: 'Italy',         code: 'it' },
-      { id: 11, country: 'Spain',         code: 'es' },
-      { id: 12, country: 'South Korea',   code: 'kr' },
-      { id: 13, country: 'Argentina',     code: 'ar' },
-      { id: 14, country: 'Nigeria',       code: 'ng' },
-      { id: 15, country: 'Egypt',         code: 'eg' },
-      { id: 16, country: 'Turkey',        code: 'tr' },
-      { id: 17, country: 'Portugal',      code: 'pt' },
-      { id: 18, country: 'Sweden',        code: 'se' },
-    ];
-
-    // State
-    let flipped = [];
-    let matched = [];
-    let moves = 0;
-    let locked = false;
-    let timerInterval = null;
-    let seconds = 0;
-    let bestTime = null;
-
-    function flagUrl(code) {
-      return `https://flagcdn.com/w160/${code}.png`;
-    }
-
-    function shuffle(arr) {
-      return [...arr].sort(() => Math.random() - 0.5);
-    }
-
-    function buildCards() {
-      const cards = [];
-      FLAGS.forEach(f => {
-        cards.push({ pairId: f.id, type: 'flag', country: f.country, code: f.code });
-        cards.push({ pairId: f.id, type: 'name', country: f.country, code: f.code });
-      });
-      return shuffle(cards);
-    }
-
-    function renderGrid(cards) {
-      const grid = document.getElementById('gameGrid');
-      grid.innerHTML = '';
-      cards.forEach((card, i) => {
-        const el = document.createElement('div');
-        el.className = 'card';
-        el.dataset.index = i;
-        el.dataset.pairId = card.pairId;
-        el.dataset.type = card.type;
-
-        const inner = document.createElement('div');
-        inner.className = 'card-inner';
-
-        const back = document.createElement('div');
-        back.className = 'card-face card-back';
-
-        const front = document.createElement('div');
-        front.className = 'card-face card-front';
-
-        if (card.type === 'flag') {
-          const img = document.createElement('img');
-          img.src = flagUrl(card.code);
-          img.alt = card.country + ' flag';
-          img.loading = 'lazy';
-          front.appendChild(img);
-        } else {
-          const label = document.createElement('div');
-          label.style.fontSize = 'clamp(0.7rem, 1.6vw, 1.05rem)';
-          label.style.padding = '8px';
-          label.style.color = '#1a1a2e';
-          label.style.fontWeight = '800';
-          label.style.textAlign = 'center';
-          label.style.lineHeight = '1.2';
-          label.textContent = card.country;
-          front.appendChild(label);
-        }
-
-        inner.appendChild(back);
-        inner.appendChild(front);
-        el.appendChild(inner);
-        el.addEventListener('click', () => onCardClick(el, card));
-        grid.appendChild(el);
-      });
-    }
-
-    function onCardClick(el, card) {
-      if (locked) return;
-      if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
-      if (!timerInterval) startTimer();
-
-      el.classList.add('flipped');
-      flipped.push({ el, card });
-
-      if (flipped.length === 2) {
-        locked = true;
-        moves++;
-        document.getElementById('movesDisplay').textContent = moves;
-        checkMatch();
-      }
-    }
-
-    function checkMatch() {
-      const [a, b] = flipped;
-      if (a.card.pairId === b.card.pairId && a.card.type !== b.card.type) {
-        setTimeout(() => {
-          a.el.classList.add('matched');
-          b.el.classList.add('matched');
-          matched.push(a.card.pairId);
-          document.getElementById('matchesDisplay').textContent = matched.length;
-          flipped = [];
-          locked = false;
-          if (matched.length === FLAGS.length) onWin();
-        }, 400);
-      } else {
-        setTimeout(() => {
-          a.el.classList.remove('flipped');
-          b.el.classList.remove('flipped');
-          flipped = [];
-          locked = false;
-        }, 1000);
-      }
-    }
-
-    function startTimer() {
-      seconds = 0;
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        seconds++;
-        document.getElementById('timerDisplay').textContent = seconds + 's';
-      }, 1000);
-    }
-
-    function stopTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-
-    function onWin() {
-      stopTimer();
-      if (bestTime === null || seconds < bestTime) {
-        bestTime = seconds;
-        document.getElementById('bestDisplay').textContent = bestTime + 's';
-      }
-      const banner = document.getElementById('winBanner');
-      banner.style.display = 'block';
-      document.getElementById('winMsg').textContent =
-        `You matched all 18 flags in ${moves} moves and ${seconds} seconds! 🌍`;
-      banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function startGame() {
-      document.getElementById('winBanner').style.display = 'none';
-      flipped = [];
-      matched = [];
-      moves = 0;
-      locked = false;
-      stopTimer();
-      seconds = 0;
-      document.getElementById('movesDisplay').textContent = '0';
-      document.getElementById('matchesDisplay').textContent = '0';
-      document.getElementById('timerDisplay').textContent = '0s';
-      const cards = buildCards();
-      renderGrid(cards);
-    }
-
-    function resetBoard() {
-      startGame();
-    }
-
-    // Init on load
-    startGame();
-  </script>
-
+  const history = JSON.parse(localStorage.getItem('flagHistory') || '[]');
+  const list = document.getElementById('historyList');
+  if (history.length === 0) {
+    list.innerHTML = '<p>No attempts yet — play your first game!</p>';
+  } else {
+    list.innerHTML = history.map((h, i) =>
+      `<p style="margin: 6px 0;">#${i+1} — ${h.time}s &nbsp;·&nbsp; ${h.moves} moves &nbsp;·&nbsp; ${h.date}</p>`
+    ).join('');
+  }
+</script>
+  
 </body>
 </html>
