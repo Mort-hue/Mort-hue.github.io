@@ -139,7 +139,7 @@ nav .nav-logo {
 .game-board-wrapper {
   background: var(--bg2);
   border-radius: 20px;
-  padding: 30px;
+  padding: 15px;
   box-shadow: var(--shadow);
   border: 1px solid rgba(255,255,255,0.06);
 }
@@ -148,6 +148,7 @@ nav .nav-logo {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 6px;
+   height: 70vh;
 }
 
 /* --- Cards --- */
@@ -155,6 +156,8 @@ nav .nav-logo {
   aspect-ratio: 9/10;
   perspective: 800px;
   cursor: pointer;
+   height: 100%;
+   width: 100%;
 }
 
 .card-inner {
