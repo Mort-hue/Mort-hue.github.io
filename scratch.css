@@ -152,7 +152,7 @@ nav .nav-logo {
 
 /* --- Cards --- */
 .card {
-  aspect-ratio: 3/4;
+  aspect-ratio: 9/10;
   perspective: 800px;
   cursor: pointer;
 }
