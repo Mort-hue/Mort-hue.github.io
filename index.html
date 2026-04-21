@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matthew Underwood</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy2: #112240;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --text: #ccd6f6;
+      --text-dim: #8892b0;
+      --white: #e6f1ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--navy);
+      color: var(--text);
+      margin: 0;
+    }
+
+    h1, h2, h3, .display-font {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ---- Navbar ---- */
+    .navbar {
+      background: rgba(10, 22, 40, 0.97) !important;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+      padding: 16px 0;
+    }
+
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold) !important;
+      font-weight: 700;
+    }
+
+    .nav-link {
+      color: var(--text-dim) !important;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      font-size: 0.92rem;
+    }
+
+    .nav-link:hover {
+      color: var(--gold) !important;
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+
+    .hero-tag {
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      padding: 13px 32px;
+      border-radius: 4px;
+      border: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-gold {
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-weight: 700;
+      padding: 11px 30px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Section styles ---- */
+    section {
+      padding: 90px 0;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--white);
+      margin-bottom: 50px;
+    }
+
+    .section-divider {
+      width: 50px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 50px;
+    }
+
+    /* ---- About ---- */
+    #about {
+      background: var(--navy2);
+    }
+
+    .about-card {
+      background: var(--navy);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      padding: 32px;
+      height: 100%;
+    }
+
+    .about-card i {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .about-card h5 {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .about-card p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ---- Skills ---- */
+    #skills {
+      background: var(--navy);
+    }
+
+    .skill-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold-light);
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin: 5px;
+      letter-spacing: 0.03em;
+    }
+
+    .skill-category {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      border-left: 3px solid var(--gold);
+      padding-left: 12px;
+    }
+
+    /* ---- Experience preview ---- */
+    #experience {
+      background: var(--navy2);
+    }
+
+    .exp-card {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateX(6px);
+    }
+
+    .exp-card .company {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .exp-card .role {
+      color: var(--gold);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .exp-card .dates {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+    }
+
+    .exp-card ul {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    /* ---- Stats ---- */
+    .stat-item {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .stat-label {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      background: #060e1a;
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.2);
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      margin: 0 14px;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--gold);
+    }
+
+    .social-icon {
+      font-size: 1.4rem;
+      color: var(--text-dim);
+      margin: 0 10px;
+      transition: color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">MU</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-2">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+          <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link" href="scratch.html">Flag Game</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="hero-tag">Finance · Business · Technology</div>
+          <h1>Matthew<br/><span>Underwood</span></h1>
+          <p class="hero-sub">
+            Pre-Marriott School of Business student at BYU with a passion for finance, data analytics, and building things that work. Currently exploring how technology and business intersect.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="resume.html" class="btn-gold">View Résumé</a>
+            <a href="#about" class="btn-outline-gold">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div style="background: var(--navy2); border-top: 1px solid rgba(201,168,76,0.15); border-bottom: 1px solid rgba(201,168,76,0.15);">
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <div class="stat-num">3.87</div>
+            <div class="stat-label">GPA</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <div class="stat-num">6×</div>
+            <div class="stat-label">Employee of the Month</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <div class="stat-num">3rd</div>
+            <div class="stat-label">State DECA</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <div class="stat-num">2×</div>
+            <div class="stat-label">Soccer MVP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Who I Am</h2>
+      <div class="section-divider"></div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="about-card">
+            <i class="bi bi-graph-up-arrow"></i>
+            <h5>Finance Focused</h5>
+            <p>Pursuing Finance at BYU's Pre-Marriott School of Business. Member of the Finance Society, Investment Banking Association, and Private Equity & Venture Capital Association.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card">
+            <i class="bi bi-globe2"></i>
+            <h5>World Traveler</h5>
+            <p>Travel is my passion — I saved up and traveled to Japan and Singapore. I also completed a 10-day humanitarian trip to Cambodia, building schools and teaching English.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card">
+            <i class="bi bi-code-slash"></i>
+            <h5>Builder & Creator</h5>
+            <p>I enjoy building things — from automated Excel spreadsheets to websites with custom minigames and interactive pages. Check out my <a href="scratch.html" style="color: var(--gold);">Flag Memory Game</a>!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">What I Know</div>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-divider"></div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="skill-category">Finance & Analytics</div>
+          <div>
+            <span class="skill-badge">Financial Analysis</span>
+            <span class="skill-badge">Month-End Reporting</span>
+            <span class="skill-badge">Data Trends</span>
+            <span class="skill-badge">Business Operations</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="skill-category">Excel & Data</div>
+          <div>
+            <span class="skill-badge">PivotTables</span>
+            <span class="skill-badge">VLOOKUP / XLOOKUP</span>
+            <span class="skill-badge">INDEX-MATCH</span>
+            <span class="skill-badge">Solver</span>
+            <span class="skill-badge">VBA / Macros</span>
+            <span class="skill-badge">Automation</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="skill-category">Tech & Web</div>
+          <div>
+            <span class="skill-badge">HTML & CSS</span>
+            <span class="skill-badge">JavaScript</span>
+            <span class="skill-badge">Bootstrap</span>
+            <span class="skill-badge">GitHub</span>
+            <span class="skill-badge">AI Tools</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">Work History</div>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-divider"></div>
+      <div class="row">
+        <div class="col-lg-8">
+
+          <div class="exp-card">
+            <div class="company">Culligan Pure Waters</div>
+            <div class="role">Business Operations Intern</div>
+            <div class="dates"><i class="bi bi-geo-alt-fill me-1"></i>Provo, UT &nbsp;·&nbsp; Nov 2025</div>
+            <ul>
+              <li>Analyzed operational, financial, and employee data using Excel</li>
+              <li>Leveraged PivotTables, Solver, VLOOKUP/XLOOKUP, and INDEX-MATCH to identify trends and support month-end reporting</li>
+              <li>Built automated spreadsheets to streamline recurring processes, reducing manual work and improving reporting accuracy</li>
+            </ul>
+          </div>
+
+          <div class="exp-card">
+            <div class="company">Taco Bell</div>
+            <div class="role">Team Member</div>
+            <div class="dates"><i class="bi bi-geo-alt-fill me-1"></i>Provo, UT &nbsp;·&nbsp; Aug 2025 – Jan 2026</div>
+            <ul>
+              <li>Enhanced customer service skills in a fast-paced environment while maintaining quality</li>
+              <li>Collaborated with team members to improve workflows during peak hours</li>
+            </ul>
+          </div>
+
+          <div class="exp-card">
+            <div class="company">Jimmy John's</div>
+            <div class="role">Crew Member</div>
+            <div class="dates"><i class="bi bi-geo-alt-fill me-1"></i>Chicago, IL &nbsp;·&nbsp; Feb 2022 – Jun 2025</div>
+            <ul>
+              <li>Earned Employee of the Month 6 times by demonstrating leadership and punctuality</li>
+              <li>Trained and onboarded new employees and led by example</li>
+              <li>Shared ideas to improve team efficiency and promote high-quality customer service</li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="col-lg-4 d-flex align-items-start justify-content-center pt-3">
+          <div class="text-center">
+            <a href="resume.html" class="btn-gold d-inline-block mb-3">View Full Résumé</a>
+            <p style="color: var(--text-dim); font-size: 0.88rem; margin-top: 16px;">See education, awards, and more on the full résumé page.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="mb-3">
+      <a href="mailto:matthew.und@gmail.com" class="social-icon" title="Email"><i class="bi bi-envelope-fill"></i></a>
+      <a href="https://www.linkedin.com/in/matthew-underwood" target="_blank" class="social-icon" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="scratch.html" class="social-icon" title="Flag Game"><i class="bi bi-controller"></i></a>
+    </div>
+    <div class="mb-2">
+      <a href="#home">Home</a>
+      <a href="resume.html">Résumé</a>
+      <a href="scratch.html">Flag Game</a>
+    </div>
+    <p style="color: var(--text-dim); font-size: 0.82rem; margin-top: 16px;">© 2026 Matthew Underwood · Provo, UT</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

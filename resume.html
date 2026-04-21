@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Résumé — Matthew Underwood</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy2: #112240;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --text: #ccd6f6;
+      --text-dim: #8892b0;
+      --white: #e6f1ff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--navy);
+      color: var(--text);
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ---- Navbar ---- */
+    .navbar {
+      background: rgba(10, 22, 40, 0.97) !important;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+      padding: 16px 0;
+    }
+
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold) !important;
+      font-weight: 700;
+    }
+
+    .nav-link {
+      color: var(--text-dim) !important;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      font-size: 0.92rem;
+    }
+
+    .nav-link:hover {
+      color: var(--gold) !important;
+    }
+
+    /* ---- Page Header ---- */
+    .page-header {
+      padding: 120px 0 60px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .page-header h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .page-header h1 span {
+      color: var(--gold);
+    }
+
+    .page-header p {
+      color: var(--text-dim);
+      font-size: 1rem;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--text-dim);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      margin: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .contact-pill:hover {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold);
+    }
+
+    /* ---- Resume Body ---- */
+    .resume-body {
+      padding: 60px 0 80px;
+    }
+
+    /* ---- Section Headers ---- */
+    .resume-section {
+      margin-bottom: 52px;
+    }
+
+    .resume-section-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      margin-bottom: 6px;
+    }
+
+    .resume-section h2 {
+      font-size: 1.9rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .resume-divider {
+      width: 40px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    /* ---- Education Cards ---- */
+    .edu-card {
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 26px 28px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--gold);
+    }
+
+    .edu-card .school {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+
+    .edu-card .degree {
+      color: var(--gold);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .edu-card .location-date {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+    }
+
+    .edu-card ul {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    /* ---- Experience Cards ---- */
+    .exp-card {
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 26px 28px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(201,168,76,0.35);
+    }
+
+    .exp-card .company {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+
+    .exp-card .role {
+      color: var(--gold);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .exp-card .location-date {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+    }
+
+    .exp-card ul {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    /* ---- Skills ---- */
+    .skill-group {
+      margin-bottom: 24px;
+    }
+
+    .skill-group-title {
+      color: var(--white);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .skill-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 4px 4px 4px 0;
+    }
+
+    /* ---- Awards ---- */
+    .award-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .award-item:last-child {
+      border-bottom: none;
+    }
+
+    .award-icon {
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .award-text {
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .award-text span {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ---- Sidebar ---- */
+    .sidebar-card {
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-card h5 {
+      color: var(--white);
+      font-size: 1rem;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .sidebar-card p, .sidebar-card li {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .sidebar-card ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      background: #060e1a;
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.2);
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      margin: 0 14px;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    .social-icon {
+      font-size: 1.4rem;
+      color: var(--text-dim);
+      margin: 0 10px;
+      transition: color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">MU</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-2">
+          <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#experience">Experience</a></li>
+          <li class="nav-item"><a class="nav-link active" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link" href="scratch.html">Flag Game</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1>Matthew <span>Underwood</span></h1>
+      <p>Pre-Marriott School of Business · Finance · Brigham Young University</p>
+      <div class="mt-3">
+        <a href="mailto:matthew.und@gmail.com" class="contact-pill">
+          <i class="bi bi-envelope-fill"></i> matthew.und@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/matthew-underwood" target="_blank" class="contact-pill">
+          <i class="bi bi-linkedin"></i> LinkedIn
+        </a>
+        <span class="contact-pill">
+          <i class="bi bi-geo-alt-fill"></i> Provo, UT
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resume Body -->
+  <div class="resume-body">
+    <div class="container">
+      <div class="row g-5">
+
+        <!-- Main Column -->
+        <div class="col-lg-8">
+
+          <!-- Education -->
+          <div class="resume-section">
+            <div class="resume-section-title">Academic Background</div>
+            <h2>Education</h2>
+            <div class="resume-divider"></div>
+
+            <div class="edu-card">
+              <div class="school">Brigham Young University</div>
+              <div class="degree">Pre-Marriott School of Business — Finance</div>
+              <div class="location-date"><i class="bi bi-geo-alt me-1"></i>Provo, UT &nbsp;·&nbsp; Expected Jun 2025</div>
+              <ul>
+                <li>GPA: 3.87 &nbsp;·&nbsp; ACT: 30</li>
+                <li>Member of Finance Society</li>
+                <li>Member of Investment Banking Association</li>
+                <li>Member of Private Equity & Venture Capital Association</li>
+                <li>Avid soccer intramural player</li>
+              </ul>
+            </div>
+
+            <div class="edu-card">
+              <div class="school">Libertyville High School</div>
+              <div class="degree">High School Diploma</div>
+              <div class="location-date"><i class="bi bi-geo-alt me-1"></i>Libertyville, IL &nbsp;·&nbsp; Jun 2025</div>
+              <ul>
+                <li>3rd in State — DECA Competition (Distributive Education Clubs of America)</li>
+                <li>Varsity Soccer — 4 years, Captain of Varsity team and club team</li>
+                <li>Caring for Cambodia club member — 10-day humanitarian trip building schools and teaching English</li>
+                <li>4-year Best Buddies club member</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience -->
+          <div class="resume-section">
+            <div class="resume-section-title">Work History</div>
+            <h2>Experience</h2>
+            <div class="resume-divider"></div>
+
+            <div class="exp-card">
+              <div class="company">Culligan Pure Waters</div>
+              <div class="role">Business Operations Intern</div>
+              <div class="location-date"><i class="bi bi-geo-alt me-1"></i>Provo, UT &nbsp;·&nbsp; Nov 2025</div>
+              <ul>
+                <li>Analyzed operational, financial, and employee data using Excel</li>
+                <li>Utilized PivotTables, Solver, VLOOKUP/XLOOKUP, INDEX-MATCH, filtering, and sorting to identify trends and support month-end reporting</li>
+                <li>Built automated spreadsheets to streamline recurring processes, reducing manual work and improving reporting accuracy</li>
+              </ul>
+            </div>
+
+            <div class="exp-card">
+              <div class="company">Taco Bell</div>
+              <div class="role">Team Member</div>
+              <div class="location-date"><i class="bi bi-geo-alt me-1"></i>Provo, UT &nbsp;·&nbsp; Aug 2025 – Jan 2026</div>
+              <ul>
+                <li>Enhanced customer service skills in a fast-paced environment while maintaining quality</li>
+                <li>Collaborated with team members to improve workflows during peak hours</li>
+              </ul>
+            </div>
+
+            <div class="exp-card">
+              <div class="company">Jimmy John's</div>
+              <div class="role">Crew Member</div>
+              <div class="location-date"><i class="bi bi-geo-alt me-1"></i>Chicago, IL &nbsp;·&nbsp; Feb 2022 – Jun 2025</div>
+              <ul>
+                <li>Earned Employee of the Month 6 times by demonstrating consistent leadership and punctuality</li>
+                <li>Trained and onboarded new employees and led by example</li>
+                <li>Frequently shared ideas to improve team efficiency and promote high-quality customer service</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Awards -->
+          <div class="resume-section">
+            <div class="resume-section-title">Recognition</div>
+            <h2>Awards & Honors</h2>
+            <div class="resume-divider"></div>
+
+            <div class="award-item">
+              <i class="bi bi-trophy-fill award-icon"></i>
+              <div class="award-text">
+                MVP — Varsity Soccer Team
+                <span>2023 & 2024</span>
+              </div>
+            </div>
+            <div class="award-item">
+              <i class="bi bi-star-fill award-icon"></i>
+              <div class="award-text">
+                All-Sectional — Varsity Soccer
+                <span>2023 & 2024</span>
+              </div>
+            </div>
+            <div class="award-item">
+              <i class="bi bi-award-fill award-icon"></i>
+              <div class="award-text">
+                Sportsmanship Award
+                <span>2023</span>
+              </div>
+            </div>
+            <div class="award-item">
+              <i class="bi bi-bar-chart-fill award-icon"></i>
+              <div class="award-text">
+                3rd in State — DECA Competition
+                <span>Distributive Education Clubs of America</span>
+              </div>
+            </div>
+            <div class="award-item">
+              <i class="bi bi-patch-check-fill award-icon"></i>
+              <div class="award-text">
+                Employee of the Month — 6 Times
+                <span>Jimmy John's</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+
+          <!-- Skills -->
+          <div class="sidebar-card">
+            <h5><i class="bi bi-tools me-2" style="color:var(--gold)"></i>Excel & Data</h5>
+            <div>
+              <span class="skill-badge">PivotTables</span>
+              <span class="skill-badge">VLOOKUP / XLOOKUP</span>
+              <span class="skill-badge">INDEX-MATCH</span>
+              <span class="skill-badge">Solver</span>
+              <span class="skill-badge">VBA / Macros</span>
+              <span class="skill-badge">Automation</span>
+              <span class="skill-badge">Month-End Reporting</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h5><i class="bi bi-code-slash me-2" style="color:var(--gold)"></i>Tech & Web</h5>
+            <div>
+              <span class="skill-badge">HTML & CSS</span>
+              <span class="skill-badge">JavaScript</span>
+              <span class="skill-badge">Bootstrap</span>
+              <span class="skill-badge">GitHub Pages</span>
+              <span class="skill-badge">AI Tools</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h5><i class="bi bi-person-circle me-2" style="color:var(--gold)"></i>Interests</h5>
+            <ul>
+              <li>Reading</li>
+              <li>Soccer</li>
+              <li>Snowboarding</li>
+              <li>Boating</li>
+              <li>Coding & AI</li>
+              <li>Travel — Japan, Singapore, Cambodia</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-card">
+            <h5><i class="bi bi-people-fill me-2" style="color:var(--gold)"></i>Organizations</h5>
+            <ul>
+              <li>Finance Society — BYU</li>
+              <li>Investment Banking Association — BYU</li>
+              <li>Private Equity & Venture Capital Association — BYU</li>
+              <li>Best Buddies — 4 years</li>
+              <li>Caring for Cambodia</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="mb-3">
+      <a href="mailto:matthew.und@gmail.com" class="social-icon" title="Email"><i class="bi bi-envelope-fill"></i></a>
+      <a href="https://www.linkedin.com/in/matthew-underwood" target="_blank" class="social-icon" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="scratch.html" class="social-icon" title="Flag Game"><i class="bi bi-controller"></i></a>
+    </div>
+    <div class="mb-2">
+      <a href="index.html">Home</a>
+      <a href="resume.html">Résumé</a>
+      <a href="scratch.html">Flag Game</a>
+    </div>
+    <p style="color: var(--text-dim); font-size: 0.82rem; margin-top: 16px;">© 2026 Matthew Underwood · Provo, UT</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
