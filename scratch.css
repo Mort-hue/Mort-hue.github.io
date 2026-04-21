@@ -147,12 +147,12 @@ nav .nav-logo {
 .game-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 6px;
 }
 
 /* --- Cards --- */
 .card {
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/4;
   perspective: 800px;
   cursor: pointer;
 }
