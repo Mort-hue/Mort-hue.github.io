@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flag Memory Game</title>
+  <link rel="stylesheet" href="scratch.css" />
+  <style>
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      padding: 10px 0;
+    }
+    .back-btn:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">🌍 FlagMaster</span>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Résumé</a>
+    <a href="scratch.html">Back to Scratch</a>
+  </nav>
+
+  <div class="hero">
+    <h1>🚩 Flag Memory</h1>
+    <p>Match each country flag with its name — how fast can you clear the board?</p>
+  </div>
+
+  <div class="section-container">
+
+    <div class="win-banner" id="winBanner">
+      <h2>🎉 You Won!</h2>
+      <p id="winMsg">Amazing! You matched all flags!</p>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-box">
+        <span class="stat-num" id="movesDisplay">0</span>
+        <span class="stat-label">Moves</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="matchesDisplay">0</span>
+        <span class="stat-label">Matches</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="timerDisplay">0s</span>
+        <span class="stat-label">Time</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="bestDisplay">--</span>
+        <span class="stat-label">Best</span>
+      </div>
+    </div>
+
+    <div class="game-board-wrapper">
+      <div class="game-grid" id="gameGrid"></div>
+      <div class="btn-center">
+        <button class="btn btn-primary" onclick="startGame()">🔀 New Game</button>
+        <button class="btn btn-danger" onclick="resetBoard()">↺ Reset</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const FLAGS = [
+      { id: 1,  country: 'United States', code: 'us' },
+      { id: 2,  country: 'Japan',         code: 'jp' },
+      { id: 3,  country: 'Brazil',        code: 'br' },
+      { id: 4,  country: 'Germany',       code: 'de' },
+      { id: 5,  country: 'France',        code: 'fr' },
+      { id: 6,  country: 'Canada',        code: 'ca' },
+      { id: 7,  country: 'Australia',     code: 'au' },
+      { id: 8,  country: 'India',         code: 'in' },
+      { id: 9,  country: 'Mexico',        code: 'mx' },
+      { id: 10, country: 'Italy',         code: 'it' },
+      { id: 11, country: 'Spain',         code: 'es' },
+      { id: 12, country: 'South Korea',   code: 'kr' },
+      { id: 13, country: 'Argentina',     code: 'ar' },
+      { id: 14, country: 'Nigeria',       code: 'ng' },
+      { id: 15, country: 'Egypt',         code: 'eg' },
+      { id: 16, country: 'Turkey',        code: 'tr' },
+      { id: 17, country: 'Portugal',      code: 'pt' },
+      { id: 18, country: 'Sweden',        code: 'se' },
+    ];
+
+    let flipped = [], matched = [], moves = 0, locked = false;
+    let timerInterval = null, seconds = 0;
+
+    // Load best time from localStorage
+    let bestTime = localStorage.getItem('flagBestTime') ? parseInt(localStorage.getItem('flagBestTime')) : null;
+    if (bestTime !== null) document.getElementById('bestDisplay').textContent = bestTime + 's';
+
+    function flagUrl(code) { return `https://flagcdn.com/w160/${code}.png`; }
+    function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+    function buildCards() {
+      const cards = [];
+      FLAGS.forEach(f => {
+        cards.push({ pairId: f.id, type: 'flag', country: f.country, code: f.code });
+        cards.push({ pairId: f.id, type: 'name', country: f.country, code: f.code });
+      });
+      return shuffle(cards);
+    }
+
+    function renderGrid(cards) {
+      const grid = document.getElementById('gameGrid');
+      grid.innerHTML = '';
+      cards.forEach((card, i) => {
+        const el = document.createElement('div');
+        el.className = 'card';
+        const inner = document.createElement('div');
+        inner.className = 'card-inner';
+        const back = document.createElement('div');
+        back.className = 'card-face card-back';
+        const front = document.createElement('div');
+        front.className = 'card-face card-front';
+
+        if (card.type === 'flag') {
+          const img = document.createElement('img');
+          img.src = flagUrl(card.code);
+          img.alt = card.country + ' flag';
+          img.loading = 'lazy';
+          front.appendChild(img);
+        } else {
+          const label = document.createElement('div');
+          label.style.fontSize = 'clamp(0.7rem, 1.6vw, 1.05rem)';
+          label.style.padding = '8px';
+          label.style.color = '#1a1a2e';
+          label.style.fontWeight = '800';
+          label.style.textAlign = 'center';
+          label.style.lineHeight = '1.2';
+          label.textContent = card.country;
+          front.appendChild(label);
+        }
+
+        inner.appendChild(back);
+        inner.appendChild(front);
+        el.appendChild(inner);
+        el.addEventListener('click', () => onCardClick(el, card));
+        grid.appendChild(el);
+      });
+    }
+
+    function onCardClick(el, card) {
+      if (locked || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+      if (!timerInterval) startTimer();
+      el.classList.add('flipped');
+      flipped.push({ el, card });
+      if (flipped.length === 2) { locked = true; moves++; document.getElementById('movesDisplay').textContent = moves; checkMatch(); }
+    }
+
+    function checkMatch() {
+      const [a, b] = flipped;
+      if (a.card.pairId === b.card.pairId && a.card.type !== b.card.type) {
+        setTimeout(() => {
+          a.el.classList.add('matched');
+          b.el.classList.add('matched');
+          matched.push(a.card.pairId);
+          document.getElementById('matchesDisplay').textContent = matched.length;
+          flipped = []; locked = false;
+          if (matched.length === FLAGS.length) onWin();
+        }, 400);
+      } else {
+        setTimeout(() => {
+          a.el.classList.remove('flipped');
+          b.el.classList.remove('flipped');
+          flipped = []; locked = false;
+        }, 1000);
+      }
+    }
+
+    function startTimer() {
+      seconds = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById('timerDisplay').textContent = seconds + 's';
+      }, 1000);
+    }
+
+    function stopTimer() { clearInterval(timerInterval); timerInterval = null; }
+
+    function saveScore(time, moves) {
+      // Save best time
+      if (bestTime === null || time < bestTime) {
+        bestTime = time;
+        localStorage.setItem('flagBestTime', bestTime);
+        document.getElementById('bestDisplay').textContent = bestTime + 's';
+      }
+      // Save last 3 attempts
+      let history = JSON.parse(localStorage.getItem('flagHistory') || '[]');
+      history.unshift({ time, moves, date: new Date().toLocaleDateString() });
+      if (history.length > 3) history = history.slice(0, 3);
+      localStorage.setItem('flagHistory', JSON.stringify(history));
+    }
+
+    function onWin() {
+      stopTimer();
+      saveScore(seconds, moves);
+      const banner = document.getElementById('winBanner');
+      banner.style.display = 'block';
+      document.getElementById('winMsg').textContent =
+        `You matched all 18 flags in ${moves} moves and ${seconds} seconds! 🌍`;
+      banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function startGame() {
+      document.getElementById('winBanner').style.display = 'none';
+      flipped = []; matched = []; moves = 0; locked = false;
+      stopTimer(); seconds = 0;
+      document.getElementById('movesDisplay').textContent = '0';
+      document.getElementById('matchesDisplay').textContent = '0';
+      document.getElementById('timerDisplay').textContent = '0s';
+      renderGrid(buildCards());
+    }
+
+    function resetBoard() { startGame(); }
+
+    startGame();
+  </script>
+
+</body>
+</html>
