@@ -229,14 +229,9 @@
           img.src = flagUrl(card.code);
           img.alt = card.country + ' flag';
           img.loading = 'lazy';
-          const label = document.createElement('div');
-          label.className = 'card-label';
-          label.textContent = card.emoji;
           front.appendChild(img);
-          front.appendChild(label);
         } else {
           const label = document.createElement('div');
-          label.className = 'card-label';
           label.style.fontSize = 'clamp(0.55rem, 1.3vw, 0.85rem)';
           label.style.padding = '8px';
           label.style.color = '#1a1a2e';
