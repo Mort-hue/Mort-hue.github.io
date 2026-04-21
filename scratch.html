@@ -158,24 +158,24 @@
     // =============================================
 
     const FLAGS = [
-      { id: 1,  country: 'United States', emoji: '🇺🇸', code: 'us' },
-      { id: 2,  country: 'Japan',         emoji: '🇯🇵', code: 'jp' },
-      { id: 3,  country: 'Brazil',        emoji: '🇧🇷', code: 'br' },
-      { id: 4,  country: 'Germany',       emoji: '🇩🇪', code: 'de' },
-      { id: 5,  country: 'France',        emoji: '🇫🇷', code: 'fr' },
-      { id: 6,  country: 'Canada',        emoji: '🇨🇦', code: 'ca' },
-      { id: 7,  country: 'Australia',     emoji: '🇦🇺', code: 'au' },
-      { id: 8,  country: 'India',         emoji: '🇮🇳', code: 'in' },
-      { id: 9,  country: 'Mexico',        emoji: '🇲🇽', code: 'mx' },
-      { id: 10, country: 'Italy',         emoji: '🇮🇹', code: 'it' },
-      { id: 11, country: 'Spain',         emoji: '🇪🇸', code: 'es' },
-      { id: 12, country: 'South Korea',   emoji: '🇰🇷', code: 'kr' },
-      { id: 13, country: 'Argentina',     emoji: '🇦🇷', code: 'ar' },
-      { id: 14, country: 'Nigeria',       emoji: '🇳🇬', code: 'ng' },
-      { id: 15, country: 'Egypt',         emoji: '🇪🇬', code: 'eg' },
-      { id: 16, country: 'Turkey',        emoji: '🇹🇷', code: 'tr' },
-      { id: 17, country: 'Portugal',      emoji: '🇵🇹', code: 'pt' },
-      { id: 18, country: 'Sweden',        emoji: '🇸🇪', code: 'se' },
+      { id: 1,  country: 'United States', code: 'us' },
+      { id: 2,  country: 'Japan',         code: 'jp' },
+      { id: 3,  country: 'Brazil',        code: 'br' },
+      { id: 4,  country: 'Germany',       code: 'de' },
+      { id: 5,  country: 'France',        code: 'fr' },
+      { id: 6,  country: 'Canada',        code: 'ca' },
+      { id: 7,  country: 'Australia',     code: 'au' },
+      { id: 8,  country: 'India',         code: 'in' },
+      { id: 9,  country: 'Mexico',        code: 'mx' },
+      { id: 10, country: 'Italy',         code: 'it' },
+      { id: 11, country: 'Spain',         code: 'es' },
+      { id: 12, country: 'South Korea',   code: 'kr' },
+      { id: 13, country: 'Argentina',     code: 'ar' },
+      { id: 14, country: 'Nigeria',       code: 'ng' },
+      { id: 15, country: 'Egypt',         code: 'eg' },
+      { id: 16, country: 'Turkey',        code: 'tr' },
+      { id: 17, country: 'Portugal',      code: 'pt' },
+      { id: 18, country: 'Sweden',        code: 'se' },
     ];
 
     // State
@@ -196,11 +196,10 @@
     }
 
     function buildCards() {
-      // Each flag gets two cards: one showing the flag image, one showing the name
       const cards = [];
       FLAGS.forEach(f => {
-        cards.push({ pairId: f.id, type: 'flag',    country: f.country, code: f.code, emoji: f.emoji });
-        cards.push({ pairId: f.id, type: 'name',    country: f.country, code: f.code, emoji: f.emoji });
+        cards.push({ pairId: f.id, type: 'flag', country: f.country, code: f.code });
+        cards.push({ pairId: f.id, type: 'name', country: f.country, code: f.code });
       });
       return shuffle(cards);
     }
@@ -236,6 +235,8 @@
           label.style.padding = '8px';
           label.style.color = '#1a1a2e';
           label.style.fontWeight = '800';
+          label.style.textAlign = 'center';
+          label.style.lineHeight = '1.2';
           label.textContent = card.country;
           front.appendChild(label);
         }
@@ -267,7 +268,6 @@
     function checkMatch() {
       const [a, b] = flipped;
       if (a.card.pairId === b.card.pairId && a.card.type !== b.card.type) {
-        // Match!
         setTimeout(() => {
           a.el.classList.add('matched');
           b.el.classList.add('matched');
@@ -278,7 +278,6 @@
           if (matched.length === FLAGS.length) onWin();
         }, 400);
       } else {
-        // No match
         setTimeout(() => {
           a.el.classList.remove('flipped');
           b.el.classList.remove('flipped');
